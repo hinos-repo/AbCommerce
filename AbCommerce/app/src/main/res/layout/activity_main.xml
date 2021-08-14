@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <variable
+            name="mainViewModel"
+            type="com.hinos.abcommerce.MainViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/v_tvBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical"
+            android:minHeight="60dp"
+            android:text="홈"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:paddingStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_TopUnderline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aeaeae"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_tvBar" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/v_vpItem"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/v_bottomUnderLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/v_TopUnderline"
+            app:setAdapter="@{mainViewModel.mPagerAdapter}"
+            app:addOnPageChangeListener="@{mainViewModel.mOnPageChangeListener}"
+
+            />
+
+        <View
+            android:id="@+id/v_bottomUnderLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#aeaeae"
+            app:layout_constraintBottom_toTopOf="@+id/v_llTabLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/v_llTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <LinearLayout
+                android:id="@+id/v_llTab1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:onClick="@{(view) -> mainViewModel.onSelectPage(view, 0)}"
+                >
+
+                <ImageView
+                    android:id="@+id/v_ivHome1"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/ic_home"
+                    android:backgroundTint="#808080"
+                    />
+
+                <TextView
+                    android:id="@+id/v_tvHome1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="홈"
+                    android:gravity="center"
+                    android:textColor="#808080"
+                    android:layout_marginTop="4dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_llTab2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:onClick="@{(view) -> mainViewModel.onSelectPage(view, 1)}"
+                >
+
+                <ImageView
+                    android:id="@+id/v_ivHome2"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/ic_like"
+                    android:backgroundTint="#808080"
+                    />
+
+                <TextView
+                    android:id="@+id/v_tvHome2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:text="좋아요"
+                    android:gravity="center"
+                    android:textColor="#808080"
+                    android:layout_marginTop="4dp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
