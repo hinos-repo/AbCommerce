@@ -1,11 +1,11 @@
-package com.hinos.abcommerce
+package com.hinos.abcommerce.ui.main
 
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.viewpager.widget.ViewPager
+import com.hinos.abcommerce.ui.fragment.BaseFragment
 import com.hinos.abcommerce.adapter.ViewPagerAdapter
 import com.hinos.abcommerce.system.MyApp
 import io.reactivex.rxjava3.disposables.CompositeDisposable

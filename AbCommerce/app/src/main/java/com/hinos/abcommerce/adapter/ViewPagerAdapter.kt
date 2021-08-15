@@ -1,9 +1,8 @@
 package com.hinos.abcommerce.adapter
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.hinos.abcommerce.BaseFragment
+import com.hinos.abcommerce.ui.fragment.BaseFragment
 
 class ViewPagerAdapter(
     fm: FragmentManager, private val mTabFragment : MutableList<BaseFragment>)

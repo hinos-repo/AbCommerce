@@ -1,12 +1,15 @@
-package com.hinos.abcommerce
+package com.hinos.abcommerce.ui.main
 
 import android.content.res.ColorStateList
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.hinos.abcommerce.ui.fragment.BaseFragment
+import com.hinos.abcommerce.ui.fragment.HomeFragment
+import com.hinos.abcommerce.ui.fragment.LikeFragment
+import com.hinos.abcommerce.R
 import com.hinos.abcommerce.databinding.ActivityMainBinding
 import com.hinos.abcommerce.factory.ViewModelFactory
 import com.hinos.abcommerce.system.MyApp

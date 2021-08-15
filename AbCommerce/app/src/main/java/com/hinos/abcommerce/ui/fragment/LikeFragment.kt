@@ -1,12 +1,11 @@
-package com.hinos.abcommerce
+package com.hinos.abcommerce.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import com.hinos.abcommerce.databinding.FragmentHomeBinding
+import com.hinos.abcommerce.R
 import com.hinos.abcommerce.databinding.FragmentLikeBinding
 
 class LikeFragment : BaseFragment()

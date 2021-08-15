@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HinosCorner">
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="strokeColor" format="reference|color" />
+        <attr name="gradientTopColor" format="reference|color" />
+        <attr name="gradientMiddleColor" format="reference|color" />
+        <attr name="gradientBottomColor" format="reference|color" />
+    </declare-styleable>
+
+    <declare-styleable name="MemoItemView">
+        <attr name="iconWidth" format="dimension"/>
+        <attr name="iconHeight" format="dimension"/>
+        <attr name="iconSrc" format="reference|integer"/>
+        <attr name="iconStartMargin" format="dimension"/>
+        <attr name="iconEndMargin" format="dimension"/>
+        <attr name="iconTopMargin" format="dimension"/>
+        <attr name="iconBottomMargin" format="dimension"/>
+
+        <attr name="nameWidth" format="dimension"/>
+        <attr name="nameHeight" format="dimension"/>
+        <attr name="nameTitle" format="string"/>
+        <attr name="nameStartMargin" format="dimension"/>
+        <attr name="nameEndMargin" format="dimension"/>
+        <attr name="nameTopMargin" format="dimension"/>
+        <attr name="nameBottomMargin" format="dimension"/>
+        <attr name="nameColor" format="reference|color" />
+    </declare-styleable>
+</resources>
+
+
+<!--    android:layout_marginStart="16dp"-->
+<!--    android:layout_marginEnd="16dp"-->
+<!--    android:layout_marginBottom="10dp"-->
+<!--    android:layout_marginTop="10dp"-->
