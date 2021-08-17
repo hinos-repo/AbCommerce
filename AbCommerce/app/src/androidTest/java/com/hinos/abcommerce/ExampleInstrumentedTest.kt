@@ -1,12 +1,9 @@
 package com.hinos.abcommerce
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.hinos.abcommerce.factory.ViewModelFactory
 import com.hinos.abcommerce.system.MyApp
-import com.hinos.abcommerce.ui.main.MainViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 import org.junit.Test

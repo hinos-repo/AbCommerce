@@ -1,4 +1,4 @@
-package com.hinos.abcommerce.ui
+package com.hinos.abcommerce.ui.custom
 
 import android.content.Context
 import android.content.res.TypedArray

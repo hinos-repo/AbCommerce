@@ -6,27 +6,28 @@ import com.hinos.abcommerce.repo.datasource.LocalDataSourceImpl
 import com.hinos.abcommerce.repo.datasource.WebDataSourceImpl
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
+import javax.inject.Inject
 
-class Repository (private val webDataSource: WebDataSourceImpl, private val localDataSource : LocalDataSourceImpl)
+class Repository @Inject constructor(private val mWebDataSource: WebDataSourceImpl, private val mLocalDataSource : LocalDataSourceImpl)
 {
     fun getHomeItems() : Single<HomeDTO>
     {
-        return webDataSource.getHomeItems()
+        return mWebDataSource.getHomeItems()
     }
 
     fun getMoreItems(lastId : String) : Single<MutableList<GoodsItem>>
     {
-        return webDataSource.getMoreGoodsItems(lastId)
+        return mWebDataSource.getMoreGoodsItems(lastId)
     }
 
     fun insertFavoriteItem(item: GoodsItem) : Completable
     {
-        return localDataSource.insertGoodsItem(item)
+        return mLocalDataSource.insertGoodsItem(item)
     }
 
     fun selectFavoriteItems() : Single<MutableList<GoodsItem>>
     {
-        return localDataSource.selectGoodsItems()
+        return mLocalDataSource.selectGoodsItems()
     }
 
 }

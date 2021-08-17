@@ -126,7 +126,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/v_tvName">
 
-                <com.hinos.abcommerce.ui.CornerTextView
+                <com.hinos.abcommerce.ui.custom.CornerTextView
                     android:id="@+id/v_ctvNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

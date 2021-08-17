@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -13,9 +12,7 @@ import com.hinos.abcommerce.R
 import com.hinos.abcommerce.adapter.BannerListAdapter
 import com.hinos.abcommerce.adapter.GoodsListAdapter
 import com.hinos.abcommerce.databinding.FragmentHomeBinding
-import com.hinos.abcommerce.factory.ViewModelFactory
 import com.hinos.abcommerce.system.MyApp
-import com.hinos.abcommerce.ui.main.MainViewModel
 
 class HomeFragment : BaseFragment()
 {
@@ -27,7 +24,6 @@ class HomeFragment : BaseFragment()
         }
     }
 
-    private lateinit var mMainViewModel : MainViewModel
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var mMgrLinearLayout : LinearLayoutManager
 
@@ -40,13 +36,6 @@ class HomeFragment : BaseFragment()
     {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        mMainViewModel = ViewModelProvider(
-                this,
-                ViewModelFactory(MyApp.getInstance(getAct()))
-        ).get(MainViewModel::class.java).apply {
-            getHomeList()
-        }
-
         initViewSetting()
 
         observeBannerLiveData()
@@ -55,7 +44,7 @@ class HomeFragment : BaseFragment()
         observeFavoriteLiveData()
         observeRefreshLiveData()
         observeWaitProgressLiveData()
-
+        mMainViewModel.getHomeList()
         return mBinding.root
     }
 
@@ -67,6 +56,7 @@ class HomeFragment : BaseFragment()
             adapter = mAdtBanner
             PagerSnapHelper().attachToRecyclerView(this)
             addOnScrollListener(mMainViewModel.mOnBannerScrollChangeListener)
+
         }
 
         mBinding.vRecycleItem.run {
@@ -135,15 +125,13 @@ class HomeFragment : BaseFragment()
     private fun setListCount()
     {
         mBinding.run {
-            val currentPosition = mMgrLinearLayout.findFirstVisibleItemPosition().let {
-                if (it <= 0)
-                    1
-                else
-                    it+1
+            val currentPosition = mMgrLinearLayout.findFirstCompletelyVisibleItemPosition().let {
+                if (it <= 0) 1 else it+1
             }
             vTvBannerCount.text = "$currentPosition / ${mAdtBanner.itemCount}"
         }
     }
+
 
     override fun onDestroy()
     {

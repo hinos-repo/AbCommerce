@@ -1,9 +1,9 @@
 package com.hinos.abcommerce.ui.main
 
+import android.app.Application
 import android.util.Log
 import android.view.View
 import androidx.core.widget.NestedScrollView
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.viewpager.widget.ViewPager
 import com.hinos.abcommerce.adapter.ViewPagerAdapter
 import com.hinos.abcommerce.listener.OnFavoriteListener
+import com.hinos.abcommerce.repo.Repository
 import com.hinos.abcommerce.repo.data.BannerItem
 import com.hinos.abcommerce.repo.data.GoodsItem
 import com.hinos.abcommerce.system.MyApp
@@ -20,12 +21,18 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
+class MainViewModel @Inject constructor(private val mApplication: Application, private var mRepository : Repository) : AndroidViewModel(mApplication)
 {
+
+//    s.
+//
+//    mAppComponent = DaggerAppComponent.builder().roomModule(RoomModule(this)).build()
+//    mAppComponent.inject(this)
+
     private val TAG = this::class.java.simpleName
 
-    private val mRepository = mApp.mRepository
     val mBannerLiveData = MutableLiveData<MutableList<BannerItem>>()
     val mGoodsLiveData = MutableLiveData<MutableList<GoodsItem>>()
     val mFavoriteLiveData = MutableLiveData<MutableList<GoodsItem>>()
@@ -38,7 +45,7 @@ class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
     private var mUsePaging = true
     lateinit var mAdtPage : ViewPagerAdapter
 
-    val mSelectedPosLiveData : MutableLiveData<Int> = MutableLiveData(0)
+    val mSelectedPosLiveData : MutableLiveData<Int> = MutableLiveData(0) // 뷰페이저
 
     fun connectViewPager(fm: FragmentManager, pageFragments: MutableList<BaseFragment>)
     {
@@ -50,7 +57,8 @@ class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
         mSelectedPosLiveData.postValue(position)
     }
 
-    override fun onCleared() {
+    override fun onCleared()
+    {
         mCompositeDisposable.clear()
         mCompositeDisposable.dispose()
     }
@@ -72,6 +80,7 @@ class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
 
         }
     }
+
 
     val mOnBannerScrollChangeListener = object : RecyclerView.OnScrollListener()
     {
@@ -184,7 +193,7 @@ class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
             mRepository.insertFavoriteItem(item)
                 .subscribeOn(Schedulers.io())
                 .subscribe({
-                    mApp.mAllFavoriteEventLiveData.postValue(item)
+                    MyApp.getInstance(mApplication).mAllFavoriteEventLiveData.postValue(item)
                 }, {
                     Log.d(TAG, "onClickFavorite: ${it.localizedMessage}")
                 })
@@ -202,6 +211,6 @@ class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
                     mFavoriteLiveData.postValue(null)
                 })
         )
-
     }
+
 }

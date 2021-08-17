@@ -4,8 +4,9 @@ import com.hinos.abcommerce.repo.data.HomeDTO
 import com.hinos.abcommerce.di.net.RetrofitService
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class WebDataSourceImpl constructor(private val mRetrofitService: RetrofitService) : WebDataSource
+class WebDataSourceImpl @Inject constructor(private val mRetrofitService: RetrofitService) : WebDataSource
 {
     override fun getHomeItems() : Single<HomeDTO>
     {

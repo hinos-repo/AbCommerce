@@ -23,13 +23,15 @@ class MainActivity : AppCompatActivity()
     private val mPageFragments : MutableList<BaseFragment> = mutableListOf()
     private val mSelectColor = "#808080"
     private val mSelectNotColor = "#ff0000"
+    private val mHomeTitle = "홈"
+    private val mLikeTitle = "좋아요"
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
 
         mMainViewModel = ViewModelProvider(
             this,
-            ViewModelFactory(MyApp.getInstance(this))
+            ViewModelFactory(this)
         ).get(MainViewModel::class.java).apply {
             createPageFragment()
             connectViewPager(supportFragmentManager, mPageFragments)
@@ -62,13 +64,13 @@ class MainActivity : AppCompatActivity()
                 vTvHome1.setTextColor(Color.parseColor(mSelectNotColor))
                 vIvHome2.backgroundTintList = ColorStateList.valueOf(Color.parseColor(mSelectColor))
                 vTvHome2.setTextColor(Color.parseColor(mSelectColor))
-                vTvBar.text = "홈"
+                vTvBar.text = mHomeTitle
             } else {
                 vIvHome1.backgroundTintList = ColorStateList.valueOf(Color.parseColor(mSelectColor))
                 vTvHome1.setTextColor(Color.parseColor(mSelectColor))
                 vIvHome2.backgroundTintList = ColorStateList.valueOf(Color.parseColor(mSelectNotColor))
                 vTvHome2.setTextColor(Color.parseColor(mSelectNotColor))
-                vTvBar.text = "좋아요"
+                vTvBar.text = mLikeTitle
             }
         }
     }

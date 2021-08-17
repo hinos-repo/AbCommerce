@@ -26,7 +26,6 @@ class LikeFragment : BaseFragment()
     }
 
     private lateinit var mBinding : FragmentLikeBinding
-    private lateinit var mMainViewModel : MainViewModel
     private lateinit var mAdtGoods : GoodsListAdapter
 
     override fun onCreateView(
@@ -36,15 +35,10 @@ class LikeFragment : BaseFragment()
         // Inflate the layout for this fragment
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_like, container, false)
 
-        mMainViewModel = ViewModelProvider(
-            this,
-            ViewModelFactory(MyApp.getInstance(getAct()))
-        ).get(MainViewModel::class.java).apply {
-            getFavoriteItems()
-        }
         initViewSetting()
         observeFavoriteLiveData()
         observeAllFavoriteEventLiveData()
+        mMainViewModel.getFavoriteItems()
 
         return mBinding.root
     }
