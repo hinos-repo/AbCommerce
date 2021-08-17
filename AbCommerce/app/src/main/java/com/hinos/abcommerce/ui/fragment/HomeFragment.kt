@@ -1,6 +1,8 @@
 package com.hinos.abcommerce.ui.fragment
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +28,7 @@ class HomeFragment : BaseFragment()
 
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var mMgrLinearLayout : LinearLayoutManager
-
+    private var mStopLifecycle = false
     private val mAdtBanner : BannerListAdapter by lazy {
         BannerListAdapter()
     }
@@ -35,7 +37,6 @@ class HomeFragment : BaseFragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
     {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
-
         initViewSetting()
 
         observeBannerLiveData()
@@ -44,6 +45,7 @@ class HomeFragment : BaseFragment()
         observeFavoriteLiveData()
         observeRefreshLiveData()
         observeWaitProgressLiveData()
+        observeBannerTimerLiveData()
         mMainViewModel.getHomeList()
         return mBinding.root
     }
@@ -82,7 +84,7 @@ class HomeFragment : BaseFragment()
 
     private fun observeBannerScrollLiveData()
     {
-        mMainViewModel.mBannerScrollLiveData.observe(viewLifecycleOwner, {
+        mMainViewModel.mBannerChangePositionLiveData.observe(viewLifecycleOwner, {
             if (it)
             {
                 setListCount()
@@ -122,16 +124,50 @@ class HomeFragment : BaseFragment()
         })
     }
 
+    private fun observeBannerTimerLiveData()
+    {
+        mMainViewModel.mBannerTimerLiveData.observe(viewLifecycleOwner, {
+            mBinding.run {
+                val currentPos = mMgrLinearLayout.findFirstVisibleItemPosition()
+                val nPos = if (it == 0 || currentPos >= it-1) {
+                    0
+                } else {
+                    currentPos+1
+                }
+
+
+                vRecycleBanner.smoothScrollToPosition(nPos)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    setListCount()
+                }, 150)
+            }
+        })
+    }
+
     private fun setListCount()
     {
+        if (mStopLifecycle)
+            return
+
         mBinding.run {
-            val currentPosition = mMgrLinearLayout.findFirstCompletelyVisibleItemPosition().let {
+            val currentPosition = mMgrLinearLayout.findFirstVisibleItemPosition().let {
                 if (it <= 0) 1 else it+1
             }
             vTvBannerCount.text = "$currentPosition / ${mAdtBanner.itemCount}"
         }
     }
 
+    override fun onResume()
+    {
+        super.onResume()
+        mStopLifecycle = false
+    }
+
+    override fun onStop()
+    {
+        super.onStop()
+        mStopLifecycle = true
+    }
 
     override fun onDestroy()
     {

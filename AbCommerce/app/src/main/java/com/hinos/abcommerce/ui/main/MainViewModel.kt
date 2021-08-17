@@ -18,9 +18,12 @@ import com.hinos.abcommerce.repo.data.GoodsItem
 import com.hinos.abcommerce.system.MyApp
 import com.hinos.abcommerce.ui.fragment.BaseFragment
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val mApplication: Application, private var mRepository : Repository) : AndroidViewModel(mApplication)
@@ -32,17 +35,22 @@ class MainViewModel @Inject constructor(private val mApplication: Application, p
 //    mAppComponent.inject(this)
 
     private val TAG = this::class.java.simpleName
+    private val BANNER_TIMER_INTERVAL : Long = 10 * 1000
 
     val mBannerLiveData = MutableLiveData<MutableList<BannerItem>>()
     val mGoodsLiveData = MutableLiveData<MutableList<GoodsItem>>()
     val mFavoriteLiveData = MutableLiveData<MutableList<GoodsItem>>()
 
     val mRefreshLiveData = MutableLiveData<Boolean>(false)
-    val mBannerScrollLiveData = MutableLiveData<Boolean>(false)
+    val mBannerChangePositionLiveData = MutableLiveData<Boolean>(false)
     val mWaitProgress = MutableLiveData<Boolean>(false)
+    val mBannerTimerLiveData = MutableLiveData<Int>(0)
+
 
     private val mCompositeDisposable = CompositeDisposable()
+    private var mBannerDisposable : Disposable? = null
     private var mUsePaging = true
+    private var mUseBannerScrolling = false
     lateinit var mAdtPage : ViewPagerAdapter
 
     val mSelectedPosLiveData : MutableLiveData<Int> = MutableLiveData(0) // 뷰페이저
@@ -61,6 +69,7 @@ class MainViewModel @Inject constructor(private val mApplication: Application, p
     {
         mCompositeDisposable.clear()
         mCompositeDisposable.dispose()
+        stopBannerTimer()
     }
 
     val mOnPageChangeListener = object : ViewPager.OnPageChangeListener
@@ -88,8 +97,9 @@ class MainViewModel @Inject constructor(private val mApplication: Application, p
             super.onScrollStateChanged(recyclerView, newState)
             if (newState == RecyclerView.SCROLL_STATE_IDLE)
             {
-                mBannerScrollLiveData.postValue(true)
+                mBannerChangePositionLiveData.postValue(true)
             }
+            mUseBannerScrolling = newState == RecyclerView.SCROLL_STATE_DRAGGING
         }
     }
 
@@ -124,6 +134,8 @@ class MainViewModel @Inject constructor(private val mApplication: Application, p
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe( {
                 mGoodsLiveData.postValue(it)
+                stopBannerTimer()
+                startBannerTimer()
             }, {
                 mGoodsLiveData.postValue(null)
             }))
@@ -213,4 +225,20 @@ class MainViewModel @Inject constructor(private val mApplication: Application, p
         )
     }
 
+    fun startBannerTimer()
+    {
+        mBannerDisposable = Observable.interval(BANNER_TIMER_INTERVAL, TimeUnit.MILLISECONDS).subscribe({
+            if (!mUseBannerScrolling)
+            {
+                mBannerTimerLiveData.postValue(mBannerLiveData.value?.size ?: 0)
+            }
+        }, {
+
+        })
+    }
+
+    fun stopBannerTimer()
+    {
+        mBannerDisposable?.dispose()
+    }
 }
