@@ -1,4 +1,4 @@
-package com.hinos.abcommerce.repo.net
+package com.hinos.abcommerce.di.net
 
 import com.google.gson.GsonBuilder
 import dagger.Module

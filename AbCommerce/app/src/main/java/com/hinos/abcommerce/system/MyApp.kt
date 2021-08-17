@@ -6,12 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import com.facebook.stetho.Stetho
 import com.hinos.abcommerce.repo.Repository
 import com.hinos.abcommerce.repo.data.GoodsItem
-import com.hinos.abcommerce.repo.datasource.LocalDataSource
-import com.hinos.abcommerce.repo.datasource.WebDataSource
-import com.hinos.abcommerce.repo.disk.AppDatabase
-import com.hinos.abcommerce.repo.net.AppComponent
-import com.hinos.abcommerce.repo.net.DaggerAppComponent
-import com.hinos.abcommerce.repo.net.RetrofitService
+import com.hinos.abcommerce.repo.datasource.LocalDataSourceImpl
+import com.hinos.abcommerce.repo.datasource.WebDataSourceImpl
+import com.hinos.abcommerce.di.AppComponent
+import com.hinos.abcommerce.di.DaggerAppComponent
+import com.hinos.abcommerce.di.disk.AppDatabase
+import com.hinos.abcommerce.di.disk.DaoFavorite
+import com.hinos.abcommerce.di.net.RetrofitService
 import javax.inject.Inject
 
 class MyApp : Application()
@@ -37,6 +38,9 @@ class MyApp : Application()
     @Inject
     lateinit var mRetrofitService: RetrofitService
 
+//    @Inject
+//    lateinit var mDaoFavorite: DaoFavorite
+
     lateinit var mRepository : Repository
 
     val mAllFavoriteEventLiveData = MutableLiveData<GoodsItem>()
@@ -53,9 +57,12 @@ class MyApp : Application()
         mAppComponent = DaggerAppComponent.builder().build()
         mAppComponent.inject(this)
 
+
+
         mRepository = Repository(
-            WebDataSource(mRetrofitService),
-            LocalDataSource(AppDatabase.getInstance(this).goodsDao())
+            WebDataSourceImpl(mRetrofitService),
+            LocalDataSourceImpl(AppDatabase.getInstance(this).favoriteDao())
+//            LocalDataSourceImpl(mDaoGoods)
         )
     }
 }

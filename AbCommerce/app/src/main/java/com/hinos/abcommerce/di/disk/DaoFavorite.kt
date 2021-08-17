@@ -1,4 +1,4 @@
-package com.hinos.abcommerce.repo.disk
+package com.hinos.abcommerce.di.disk
 
 import androidx.room.*
 import com.hinos.abcommerce.repo.data.GoodsItem

@@ -2,13 +2,12 @@ package com.hinos.abcommerce.repo
 
 import com.hinos.abcommerce.repo.data.GoodsItem
 import com.hinos.abcommerce.repo.data.HomeDTO
-import com.hinos.abcommerce.repo.datasource.LocalDataSource
-import com.hinos.abcommerce.repo.datasource.WebDataSource
+import com.hinos.abcommerce.repo.datasource.LocalDataSourceImpl
+import com.hinos.abcommerce.repo.datasource.WebDataSourceImpl
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import javax.inject.Inject
 
-class Repository (private val webDataSource: WebDataSource, private val localDataSource : LocalDataSource)
+class Repository (private val webDataSource: WebDataSourceImpl, private val localDataSource : LocalDataSourceImpl)
 {
     fun getHomeItems() : Single<HomeDTO>
     {

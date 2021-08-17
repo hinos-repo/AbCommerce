@@ -23,7 +23,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 class MainViewModel(private val mApp: MyApp) : AndroidViewModel(mApp)
 {
-    val TAG = this::class.java.simpleName
+    private val TAG = this::class.java.simpleName
 
     private val mRepository = mApp.mRepository
     val mBannerLiveData = MutableLiveData<MutableList<BannerItem>>()

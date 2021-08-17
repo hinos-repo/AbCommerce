@@ -1,4 +1,4 @@
-package com.hinos.abcommerce.repo.net
+package com.hinos.abcommerce.di.net
 
 import com.hinos.abcommerce.repo.data.GoodsItem
 import com.hinos.abcommerce.repo.data.HomeDTO
