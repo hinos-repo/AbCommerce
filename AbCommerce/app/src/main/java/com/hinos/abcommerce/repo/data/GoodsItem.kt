@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlin.math.roundToInt
 
 @Entity(tableName = "tb_goods")
 data class GoodsItem(
@@ -32,5 +33,19 @@ data class GoodsItem(
         val is_new : Boolean = false,
 
         @SerializedName("sell_count") // 구매중 갯수
-        val sell_count : String = ""
-)
+        val sell_count : String = "",
+
+        var is_like : Boolean = false
+) {
+        fun getSaleText() : String
+        {
+                val sale = (actual_price.toDouble() - price.toDouble()) * 100 / actual_price.toDouble()
+                return "${sale.roundToInt()}%"
+//                return "${((price.toInt() - actual_price.toInt()) / 100)} %"
+        }
+
+        fun getSellCountText() : String
+        {
+                return "$sell_count 개 구매중"
+        }
+}

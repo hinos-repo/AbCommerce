@@ -1,16 +1,15 @@
 package com.hinos.abcommerce.repo.datasource
 
 import com.hinos.abcommerce.repo.data.GoodsItem
-import com.hinos.abcommerce.repo.disk.DaoGoods
+import com.hinos.abcommerce.repo.disk.DaoFavorite
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
-import javax.inject.Inject
 
-class LocalDataSource @Inject constructor(private val mDaoGoods : DaoGoods)
+class LocalDataSource constructor(private val mDaoGoods : DaoFavorite)
 {
     fun selectGoodsItems() : Single<MutableList<GoodsItem>>
     {
-        return mDaoGoods.selectGoodsItems()
+        return mDaoGoods.getAllFavoriteItems()
     }
 
     fun insertGoodsItem(item : GoodsItem) : Completable

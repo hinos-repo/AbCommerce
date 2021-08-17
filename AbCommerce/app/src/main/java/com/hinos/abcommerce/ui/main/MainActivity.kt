@@ -62,11 +62,13 @@ class MainActivity : AppCompatActivity()
                 vTvHome1.setTextColor(Color.parseColor(mSelectNotColor))
                 vIvHome2.backgroundTintList = ColorStateList.valueOf(Color.parseColor(mSelectColor))
                 vTvHome2.setTextColor(Color.parseColor(mSelectColor))
+                vTvBar.text = "홈"
             } else {
                 vIvHome1.backgroundTintList = ColorStateList.valueOf(Color.parseColor(mSelectColor))
                 vTvHome1.setTextColor(Color.parseColor(mSelectColor))
                 vIvHome2.backgroundTintList = ColorStateList.valueOf(Color.parseColor(mSelectNotColor))
                 vTvHome2.setTextColor(Color.parseColor(mSelectNotColor))
+                vTvBar.text = "좋아요"
             }
         }
     }

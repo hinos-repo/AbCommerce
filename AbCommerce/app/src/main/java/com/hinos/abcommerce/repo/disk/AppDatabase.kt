@@ -4,12 +4,11 @@ import android.content.Context
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.hinos.abcommerce.repo.data.GoodsItem
-import dagger.Module
 
 @Database(entities = [GoodsItem::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase()
 {
-    abstract fun goodsDao() : DaoGoods
+    abstract fun goodsDao() : DaoFavorite
 
     companion object
     {

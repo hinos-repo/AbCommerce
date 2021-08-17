@@ -11,6 +11,6 @@ interface RetrofitService
     fun getHomeItems() : Single<HomeDTO>
 
     @GET("home/goods")
-    fun getMoreGoodsItems(@Query("lastId") lastId : String) : Single<MutableList<GoodsItem>>
+    fun getMoreGoodsItems(@Query("lastId") lastId : String) : Single<HomeDTO>
 
 }

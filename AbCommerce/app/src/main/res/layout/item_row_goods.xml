@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="com.hinos.abcommerce.repo.data.GoodsItem" />
+
+        <variable
+            name="callback"
+            type="com.hinos.abcommerce.listener.OnFavoriteListener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/v_ivLike"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@{data.is_like ? @drawable/ic_like_on : @drawable/ic_like_off}"
+                android:onClick="@{(view) -> callback.onClickFavorite(view, data)}"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:elevation="1dp"
+                tools:src="@drawable/ic_like_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/v_ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="20:20"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/v_tvName"
+                app:layout_constraintEnd_toEndOf="@+id/v_ivProduct"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/v_ivProduct"
+                app:layout_constraintTop_toBottomOf="@+id/v_ivProduct">
+
+                <TextView
+                    android:id="@+id/v_tvSale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    tools:text="10%"
+                    android:textColor="#ff0000"
+                    android:text="@{data.getSaleText()}"
+                    android:textSize="14dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="@{data.price.equals(data.actual_price) ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="@+id/v_ivProduct"
+                    app:layout_constraintTop_toBottomOf="@+id/v_ivProduct" />
+
+                <TextView
+                    android:id="@+id/v_tvPrice"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="#000000"
+                    android:text="@{data.price}"
+                    android:textSize="14dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/v_tvSale"
+                    app:layout_constraintStart_toEndOf="@+id/v_tvSale"
+                    app:layout_constraintTop_toBottomOf="@+id/v_ivProduct"
+                    tools:text="8,200"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/v_tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@{data.name}"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="가격실화? 가성비 대박 ...."
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/v_tvName">
+
+                <com.hinos.abcommerce.ui.CornerTextView
+                    android:id="@+id/v_ctvNew"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NEW"
+                    android:textColor="#000000"
+                    android:padding="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="@{data.is_new ? View.VISIBLE : View.GONE}"
+                    app:cornerRadius="4dp"
+                    app:strokeColor="#000000"
+                    app:strokeWidth="1dp"
+                    />
+
+                <TextView
+                    android:id="@+id/v_tvSellCount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@{data.getSellCountText()}"
+                    tools:text="1,073개 구매중"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

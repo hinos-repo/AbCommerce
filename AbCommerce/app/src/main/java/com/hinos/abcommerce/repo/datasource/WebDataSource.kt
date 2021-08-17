@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
-class WebDataSource @Inject constructor(private val mRetrofitService: RetrofitService)
+class WebDataSource constructor(private val mRetrofitService: RetrofitService)
 {
     fun getHomeItems() : Single<HomeDTO>
     {
@@ -20,5 +20,6 @@ class WebDataSource @Inject constructor(private val mRetrofitService: RetrofitSe
         return mRetrofitService
             .getMoreGoodsItems(lastId)
             .subscribeOn(Schedulers.io())
+            .map { it.mArGoods }
     }
 }

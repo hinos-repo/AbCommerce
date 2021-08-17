@@ -2,7 +2,10 @@ package com.hinos.abcommerce.system
 
 import android.app.Application
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
+import com.facebook.stetho.Stetho
 import com.hinos.abcommerce.repo.Repository
+import com.hinos.abcommerce.repo.data.GoodsItem
 import com.hinos.abcommerce.repo.datasource.LocalDataSource
 import com.hinos.abcommerce.repo.datasource.WebDataSource
 import com.hinos.abcommerce.repo.disk.AppDatabase
@@ -36,9 +39,12 @@ class MyApp : Application()
 
     lateinit var mRepository : Repository
 
+    val mAllFavoriteEventLiveData = MutableLiveData<GoodsItem>()
+
     override fun onCreate()
     {
         super.onCreate()
+        Stetho.initializeWithDefaults(this)
         initComponent()
     }
 
@@ -46,7 +52,10 @@ class MyApp : Application()
     {
         mAppComponent = DaggerAppComponent.builder().build()
         mAppComponent.inject(this)
-        mRepository = Repository(WebDataSource(mRetrofitService), LocalDataSource(AppDatabase.getInstance(this).goodsDao()))
 
+        mRepository = Repository(
+            WebDataSource(mRetrofitService),
+            LocalDataSource(AppDatabase.getInstance(this).goodsDao())
+        )
     }
 }
